@@ -18,7 +18,7 @@
     
   <body>
       
-    <canvas id="canvasOne"></canvas>
+    <canvas id="canvasOne" width="1330" height="650"></canvas>
       
     <script type="text/javascript">
       
@@ -27,9 +27,17 @@
       // Set the canvas up for drawing in 2D.
       var ctx = canvas.getContext("2d");
         
+        //circle - blue
         ctx.beginPath();
-        ctx.arc(75, 75, 50, 0, 2 * Math.PI); 
-        ctx.fillStyle = "blue";
+        ctx.arc(710, 570, 20, 0, 2 * Math.PI); 
+        ctx.fillStyle = "rgb(0, 0, 250)";
+        ctx.fill();
+        ctx.closePath();
+        
+        //Rectangle - red
+        ctx.beginPath();
+        ctx.rect(665, 600, 100, 30);
+        ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
         ctx.fill();
         ctx.closePath();
         

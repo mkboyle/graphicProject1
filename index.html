@@ -50,19 +50,6 @@
     function repeatme(){
         ctx.clearRect(0, 0, canvas.width, canvas.height); //clears canvas 
         ball(); // ball function
-        
-        //Collision Detection for the left and right
-        if(x + mx > canvas.width - 20 || x + mx < 20) // 20 is the radius. avoids half the ball disappearing                                      
-        {
-            mx = -mx;   //changes the direction when its wall
-        }
-        
-        //Collision Detection for the top and bottom
-        if(y + my > canvas.height - 20 || y + my < 20) // 20 is the radius. avoids half the ball disappearing 
-        {
-            my = -my; //changes the direction when its wall
-        }
-        
         x += mx; //update x location
         y += my; //update y location
         window.requestAnimationFrame(repeatme);

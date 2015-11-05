@@ -18,12 +18,12 @@
     
   <body>
       
-    <canvas id="canvasOne" width="1330" height="650"></canvas>
+    <canvas id="gamecanvas" width="1330" height="650"></canvas>
       
     <script type="text/javascript">
       
-    // Gets a handle to the element with id canvasOne.
-    var canvas = document.getElementById("canvasOne");
+    // Gets a handle to the element with id gamecanvas.
+    var canvas = document.getElementById("gamecanvas");
     // Set the canvas up for drawing in 2D.
     var ctx = canvas.getContext("2d");
     
@@ -35,6 +35,50 @@
     var mx = 2;
     var my = -2;
 
+    // buttons are false as they are not pressed at the start
+    var rightButton = false;
+    var leftButton = false;
+        
+    //Variables for height and width of paddle
+    var paddleWidth = canvas.width / 5;
+    var paddleHeight = 10;
+
+    // variables for positioning paddle in thhe middle
+    var paddlePos = {
+        x: (canvas.width - paddleWidth)/ 2
+        ,y: canvas.height - paddleHeight
+    }
+        
+    // Two event Listeners for keys
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+        
+    function keyDownHandler(e) //When button is pressed
+    {
+        if(e.keyCode == 39) //Keycode for the right button is 39
+        {
+            rightButton = true; //rightButton set to true
+        }
+        
+        else if(e.keyCode == 37) //Keycode for the right button is 37
+        {
+            leftButton = true;
+        }
+    }
+        
+    function keyUpHandler(e) //When button is let go of
+    {
+        if(e.keyCode == 39) 
+        {
+            rightButton = false;
+        }
+        
+        else if(e.keyCode == 37) //Keycode for the right button is 37
+        {
+            leftButton = false; //button set to false
+        }
+}	
+        
     // Function to create the ball
     function ball()
     {  
@@ -50,6 +94,42 @@
     function repeatme(){
         ctx.clearRect(0, 0, canvas.width, canvas.height); //clears canvas 
         ball(); // ball function
+        paddle(); //paddle function
+        
+        //Collision Detection for the left and right
+        if(x + mx > canvas.width - 20 || x + mx < 20) // 20 is the radius. avoids half the ball disappearing                                      
+        {
+            mx = -mx;   //changes the direction when its wall
+        }
+        
+        //Collision Detection for the top
+        if(y + my < 20) // 20 is the radius. avoids half the ball disappearing 
+        {
+            my = -my; //changes the direction when it hits the wall
+        }
+        
+        //Collision Detection for the bottom
+        else if(y + my > canvas.height - paddleHeight - 20)  
+        {
+            // Collision Detection for ball hitting paddle
+            // if postition of ball is on the paddle 
+            if(x > paddlePos.x && x < paddlePos.x + paddleWidth) 
+            {
+                my = -my; //changes the direction when it hits the paddle
+            }
+            
+        }
+        
+        // Paddle Movement
+        if(rightButton && paddlePos.x < canvas.width-paddleWidth) // canvas.width-paddleWidth avoids paddle going off canvas on right
+        {
+            paddlePos.x += 5; //paddle moves 5 pixels to the right
+        }
+        else if(leftButton && paddlePos.x > 0) // 0 voids paddle going off canvas on left
+        {
+            paddlePos.x -= 5; //paddle moves 5 pixels to the left
+        }
+        
         x += mx; //update x location
         y += my; //update y location
         window.requestAnimationFrame(repeatme);
@@ -58,13 +138,16 @@
     // Get the animation going.
     repeatme();
         
-        
-        //Rectangle - red
+    // Function to create the paddle
+    function paddle()
+    {
         ctx.beginPath();
-        ctx.rect(665, 600, 100, 30);//(x,y, width, Height)
+        ctx.rect(paddlePos.x, paddlePos.y, paddleWidth, paddleHeight);//(x,y, width, Height)
         ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
         ctx.fill();
         ctx.closePath();
+        
+    }
         
         // block
         ctx.beginPath();

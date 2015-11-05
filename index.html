@@ -57,6 +57,10 @@
     var bricksCols = 17;
     var bricksMargin = 17;
     var bricksTop = 20;
+    var brickX;
+    var brickY;
+        
+    var scoreTotal = 0;
     
         
     // bricks 2d array storing columns and rows    
@@ -113,8 +117,71 @@
         ctx.closePath();
         
     }
+
+    // Function to create the paddle
+    function paddle()
+    {
+        ctx.beginPath();
+        ctx.rect(paddlePos.x, paddlePos.y, paddleWidth, paddleHeight);//(x,y, width, Height)
+        ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
+        ctx.fill();
+        ctx.closePath();
         
+    }        
         
+    //Function for the bricks
+    function brick()
+    {
+        //loop through rows and columns
+        for(c=0; c<bricksCols; c++) 
+        {
+            for(r=0; r<bricksRows; r++) 
+            {
+                //calculates the x and y position of each brick
+                brickX = (c*(brickWidth+bricksMargin))+bricksTop;
+                brickY = (r*(brickHeight+bricksMargin))+bricksTop;
+                //assigns the x and y positions to each brick
+                bricks[c][r].x = brickX;
+                bricks[c][r].y = brickY;
+                // paints brick to canvas
+                ctx.beginPath();
+                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                ctx.fillStyle = "orange";
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+    }
+        
+    // funtion for scoreboard
+    function score()
+    {
+        ctx.fillStyle = "black";
+        ctx.font = "20px Times New Roman";  //sets font
+        ctx.fillText('Score: '+scoreTotal,10,canvas.height-10); // place score 10 pixels from the bottom
+    }
+                   
+    // collision detection for ball too brick
+    function collisionDetection()
+    {
+        //loop through rows and columns
+        for(c=0; c<bricksCols; c++) 
+        {
+            for(r=0; r<bricksRows; r++) 
+            {
+                // b stores brick positions x and y
+                var b = bricks[c][r];   
+                //the conditions to be true
+                if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) 
+                {
+                    my = -my; //changes direction of the ball
+
+                }                     
+                
+            }
+        }
+    }
+            
         
     // A function to repeat every time the animation loops.
     function repeatme(){
@@ -122,14 +189,16 @@
         ball(); // ball function
         paddle(); //paddle function
         brick(); // block function
+        score(); // score function
+        collisionDetection(); // collision detection for ball to brick
         
-        //Collision Detection for the left and right
+        //Collision Detection for the left and right walls
         if(x + mx > canvas.width - 20 || x + mx < 20) // 20 is the radius. avoids half the ball disappearing                                      
         {
             mx = -mx;   //changes the direction when its wall
         }
         
-        //Collision Detection for the top
+        //Collision Detection for the top wall
         if(y + my < 20) // 20 is the radius. avoids half the ball disappearing 
         {
             my = -my; //changes the direction when it hits the wall
@@ -164,41 +233,6 @@
         
     // Get the animation going.
     repeatme();
-        
-    // Function to create the paddle
-    function paddle()
-    {
-        ctx.beginPath();
-        ctx.rect(paddlePos.x, paddlePos.y, paddleWidth, paddleHeight);//(x,y, width, Height)
-        ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
-        ctx.fill();
-        ctx.closePath();
-        
-    }
-        
-    //Function for the bricks
-    function brick()
-    {
-        //loop trhough rows and columns
-        for(c=0; c<bricksCols; c++) 
-        {
-            for(r=0; r<bricksRows; r++) 
-            {
-                //calculates the x and y position of each brick
-                var brickX = (c*(brickWidth+bricksMargin))+bricksTop;
-                var brickY = (r*(brickHeight+bricksMargin))+bricksTop;
-                //assigns the x and y positions to each brick
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-                // paints brick to canvas
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "orange";
-                ctx.fill();
-                ctx.closePath();
-            }
-        }
-    }
         
     </script>
   </body>

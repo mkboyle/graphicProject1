@@ -62,8 +62,8 @@
     var brickY;
       
     //variable to store score    
-    var scoreTotal = 0;
-    
+    var scoreTotal = 0;  
+
     // bricks 2d array storing columns and rows    
     for(c=0; c<bricksCols; c++) 
     {
@@ -114,21 +114,7 @@
         {
             leftButton = false; //button set to false
         }
-        else if(e.keyCode ==38) //Keycode for the right button is 38
-        {
-            upButton == false;
-            
-        }
     }	
-       
-       function start()
-       {
-           if(upButton == true)
-           {
-               repeatme();
-           }
-           
-       }
         
     // Function to create the ball
     function ball()

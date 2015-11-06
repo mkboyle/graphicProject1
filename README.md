@@ -14,4 +14,4 @@ This is the README for Brick Breaker, which includes details about the game incl
 
 1. There is two event listenerrs for the left and right keys.
 
-1. requestAnimationFrame is calls function to repeat every time the animation loops
+1. requestAnimationFrame calls function to repeat every time the animation loops

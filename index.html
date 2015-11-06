@@ -186,6 +186,13 @@
                         my = -my; //changes direction of the ball
                         b.status = 0; //status changed to 0 as brick is removedd
                         scoreTotal += 10; //adds 10 each time a brick is hit
+                        if(score == (bricksRows*bricksCols)*10) 
+                        {
+                            ctx.fillStyle = "red";
+                            ctx.font = "100px Times New Roman";  //sets font
+                            ctx.fillText('You Won!!',canvas.width/2,canvas.height/2); 
+                           
+                        }
 
                     }                     
                 }
@@ -223,6 +230,11 @@
             if(x > paddlePos.x && x < paddlePos.x + paddleWidth) 
             {
                 my = -my; //changes the direction when it hits the paddle
+            }
+            else{
+                ctx.fillStyle = "red";
+                ctx.font = "100px Times New Roman";  //sets font
+                ctx.fillText('You Lost!! GAME OVER',canvas.height/3,canvas.height/2); 
             }
             
         }

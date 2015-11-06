@@ -14,14 +14,13 @@
         }
         
     </style>
-      
   </head>
     
   <body>
       
     <canvas id="gamecanvas" width="1330" height="650"></canvas>
       
-    <script type="text/javascript">
+   <script type="text/javascript">
       
     // Gets a handle to the element with id gamecanvas.
     var canvas = document.getElementById("gamecanvas");
@@ -39,6 +38,7 @@
     // buttons are false as they are not pressed at the start
     var rightButton = false;
     var leftButton = false;
+    var upButton = false;
         
     //Variables for height and width of paddle
     var paddleWidth = canvas.width / 5;
@@ -83,6 +83,8 @@
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
         
+         
+        
     function keyDownHandler(e) //When button is pressed
     {
         if(e.keyCode == 39) //Keycode for the right button is 39
@@ -93,6 +95,11 @@
         else if(e.keyCode == 37) //Keycode for the right button is 37
         {
             leftButton = true;
+        }
+        else if(e.keyCode ==38) //Keycode for the right button is 38
+        {
+            upButton == true;
+            start();
         }
     }
         
@@ -107,14 +114,28 @@
         {
             leftButton = false; //button set to false
         }
+        else if(e.keyCode ==38) //Keycode for the right button is 38
+        {
+            upButton == false;
+            
+        }
     }	
+       
+       function start()
+       {
+           if(upButton == true)
+           {
+               repeatme();
+           }
+           
+       }
         
     // Function to create the ball
     function ball()
     {  
         ctx.beginPath();
         ctx.arc(x, y, 20, 0, 2 * Math.PI); 
-        ctx.fillStyle = "rgb(0, 0, 250)";
+        ctx.fillStyle = "rgb(0, 0, 250)"; //blue
         ctx.fill();
         ctx.closePath();
         
@@ -125,7 +146,7 @@
     {
         ctx.beginPath();
         ctx.rect(paddlePos.x, paddlePos.y, paddleWidth, paddleHeight);//(x,y, width, Height)
-        ctx.fillStyle = "rgba(255, 0, 0, 0.8)";
+        ctx.fillStyle = "rgba(255, 0, 0, 0.8)"; //red
         ctx.fill();
         ctx.closePath();
         
@@ -191,6 +212,7 @@
                             ctx.fillStyle = "red";
                             ctx.font = "100px Times New Roman";  //sets font
                             ctx.fillText('You Won!!',canvas.width/2,canvas.height/2); 
+                            location;
                            
                         }
 
@@ -203,7 +225,8 @@
         
     // A function to repeat every time the animation loops.
     function repeatme(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height); //clears canvas 
+        ctx.clearRect(0, 0, canvas.width, canvas.height); //clears canvas
+        start();
         ball(); // ball function
         paddle(); //paddle function
         brick(); // block function
@@ -234,7 +257,8 @@
             else{
                 ctx.fillStyle = "red";
                 ctx.font = "100px Times New Roman";  //sets font
-                ctx.fillText('You Lost!! GAME OVER',canvas.height/3,canvas.height/2); 
+                ctx.fillText('GAME OVER',canvas.width/3,canvas.height/2);
+                location; //stops game
             }
             
         }
@@ -253,10 +277,10 @@
         y += my; //update y location
         window.requestAnimationFrame(repeatme);
     }
-        
+       
     // Get the animation going.
-    repeatme();
+    repeatme();  
         
-    </script>
+   </script> 
   </body>
 </html>

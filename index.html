@@ -31,9 +31,9 @@
     var x = canvas.width/2;
     var y = canvas.height-60;
         
-    //Values added to x and y to make them move
-    var mx = 2;
-    var my = -2;
+    //Values added to x and y to make them move(speed)
+    var mx = 4;
+    var my = -4;
 
     // buttons are false as they are not pressed at the start
     var rightButton = false;
@@ -59,10 +59,10 @@
     var bricksTop = 20;
     var brickX;
     var brickY;
-        
+      
+    //variable to store score    
     var scoreTotal = 0;
     
-        
     // bricks 2d array storing columns and rows    
     for(c=0; c<bricksCols; c++) 
     {
@@ -73,6 +73,7 @@
             //brick objects with x and y positions
             bricks[c][r] = { x: 0
                             , y: 0 
+                            , status: 1
                            };
         }
     }
@@ -105,7 +106,7 @@
         {
             leftButton = false; //button set to false
         }
-}	
+    }	
         
     // Function to create the ball
     function ball()
@@ -137,18 +138,22 @@
         {
             for(r=0; r<bricksRows; r++) 
             {
-                //calculates the x and y position of each brick
-                brickX = (c*(brickWidth+bricksMargin))+bricksTop;
-                brickY = (r*(brickHeight+bricksMargin))+bricksTop;
-                //assigns the x and y positions to each brick
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-                // paints brick to canvas
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "orange";
-                ctx.fill();
-                ctx.closePath();
+                // checks bricks are visable
+                if(bricks[c][r].status == 1)
+                {
+                    //calculates the x and y position of each brick
+                    brickX = (c*(brickWidth+bricksMargin))+bricksTop;
+                    brickY = (r*(brickHeight+bricksMargin))+bricksTop;
+                    //assigns the x and y positions to each brick
+                    bricks[c][r].x = brickX;
+                    bricks[c][r].y = brickY;
+                    // paints brick to canvas
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                    ctx.fillStyle = "orange";
+                    ctx.fill();
+                    ctx.closePath();
+                }
             }
         }
     }
@@ -170,14 +175,19 @@
             for(r=0; r<bricksRows; r++) 
             {
                 // b stores brick positions x and y
-                var b = bricks[c][r];   
-                //the conditions to be true
-                if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) 
+                var b = bricks[c][r]; 
+                // checks brick is visable
+                if(b.status == 1) 
                 {
-                    my = -my; //changes direction of the ball
+                    //the conditions to be true
+                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) 
+                    {
+                        my = -my; //changes direction of the ball
+                        b.status = 0; //status changed to 0 as brick is removedd
+                        scoreTotal += 10; //adds 10 each time a brick is hit
 
-                }                     
-                
+                    }                     
+                }
             }
         }
     }
